@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Jam & Kalender Jawa Neon</title>
+
+<!-- FONT KEREN -->
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at center, #0f2027, #000000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Orbitron', sans-serif;
+    color: #fff;
+}
+
+.box {
+    text-align: center;
+    padding: 30px;
+    border-radius: 15px;
+    background: rgba(0,0,0,0.6);
+    box-shadow: 0 0 20px #00f7ff, 0 0 40px #00f7ff inset;
+}
+
+h1 {
+    color: #00f7ff;
+    text-shadow: 0 0 10px #00f7ff, 0 0 20px #00f7ff;
+}
+
+#jam {
+    font-size: 55px;
+    margin: 15px 0;
+    color: #ff00ff;
+    text-shadow: 0 0 10px #ff00ff, 0 0 25px #ff00ff;
+}
+
+#tanggal {
+    font-size: 18px;
+    color: #00ffcc;
+    text-shadow: 0 0 8px #00ffcc;
+}
+
+#jawa {
+    font-size: 20px;
+    margin-top: 10px;
+    color: #ffff00;
+    text-shadow: 0 0 10px #ffff00, 0 0 20px #ffff00;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h1>KALENDER JAWA</h1>
+    <div id="jam"></div>
+    <div id="tanggal"></div>
+    <div id="jawa"></div>
+</div>
+
+<script>
+const pasaran = ["Legi", "Pahing", "Pon", "Wage", "Kliwon"];
+const hariMasehi = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+
+// Patokan hari ini = Wage
+const baseDate = new Date();
+baseDate.setHours(0,0,0,0);
+const basePasaranIndex = 3;
+
+function update() {
+    const now = new Date();
+
+    // JAM
+    document.getElementById("jam").innerHTML =
+        now.toLocaleTimeString("id-ID");
+
+    // TANGGAL
+    document.getElementById("tanggal").innerHTML =
+        now.toLocaleDateString("id-ID", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+
+    // HITUNG JAWA
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    const selisihHari = Math.floor((today - baseDate) / (1000*60*60*24));
+    const indexPasaran = (basePasaranIndex + selisihHari) % 5;
+
+    const namaPasaran = pasaran[(indexPasaran + 5) % 5];
+    const namaHari = hariMasehi[now.getDay()];
+
+    document.getElementById("jawa").innerHTML =
+        "Hari Jawa: " + namaHari + " " + namaPasaran;
+}
+
+update();
+setInterval(update, 1000);
+</script>
+
+</body>
+</html>
